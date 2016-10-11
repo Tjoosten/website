@@ -27,6 +27,7 @@ Route::get('/rental', 'RentalController@indexFrontEnd')->name('rental.frontend.i
 Route::get('/rental/insert', 'RentalController@insertViewFrontEnd')->name('rental.frontend.insert');
 Route::get('/rental/calendar', 'RentalController@calendar')->name('rental.frontend-calendar');
 Route::get('/rental/reachable', 'RentalController@domainReachable')->name('rental.frontend.reachable');
+Route::get('/backend/rental/export', 'RentalController@exportExcel')->name('rental.backend.export');
 Route::post('/rental/insert','RentalController@insert')->name('rental.store');
 
 Route::get('/backend/rental', 'RentalController@indexBackEnd')->name('rental.backend');

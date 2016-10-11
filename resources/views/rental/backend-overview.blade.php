@@ -17,32 +17,8 @@
         <h3 class="box-title">Verhuur overzicht</h3>
 
         <div class="pull-right">
-            <div class="btn-group">
-                <button type="button" class="btn btn-xs btn-danger">Downloaden</button>
-                <button type="button" class="btn btn-xs btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu-left dropdown-menu">
-                    <li>
-                        <a href="#">
-                            <span class="fa fa-file-pdf-o"></span>PDF bestand
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="fa fa-file-code-o"></span>CSV bestand
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <span class="fa fa-file-excel-o"></span>Excel bestand
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <a href="" class="btn btn-success btn-xs" data-toggle="modal" data-target="#insert">Verhuring toevoegen</a>
+            <a href="{{ route('rental.backend.export') }}" class="btn btn-danger btn-xs">Exporteer</a>
+            <a href="#" class="btn btn-success btn-xs" data-toggle="modal" data-target="#insert">Verhuring toevoegen</a>
         </div>
     </div>
     <div class="box-body">
