@@ -273,7 +273,7 @@ class RentalController extends Controller
             // Sheet: for all the rentals.
             $excel->sheet('alle verhuringen', function($sheet) {
                 $data['all'] = Rental::with('status')->get();
-                $sheet->loadView('view.name', $data['all']);
+                $sheet->loadView('rental.export.all', $data['all']);
             });
 
             // Sheet: for rentals classified as option
@@ -282,7 +282,7 @@ class RentalController extends Controller
                     $query->where('name', 'Optie');
                 })->get();
 
-                $sheet->loadView('view.name', $data['option']);
+                $sheet->loadView('rental.export.group', $data['option']);
             });
 
             // Sheet: for rentals classified as new.
@@ -291,7 +291,7 @@ class RentalController extends Controller
                     $query->where('name', 'Nieuwe aanvraag');
                 })->get();
 
-                $sheet->loadView('view.name', $data['new']);
+                $sheet->loadView('rental.export.group', $data['new']);
             });
 
             // Sheet: for rentals classified as confirmed.
