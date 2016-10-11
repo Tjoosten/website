@@ -172,6 +172,7 @@ return [
         PrettyRoutes\ServiceProvider::class,
         Themsaid\Langman\LangmanServiceProvider::class,
         Spatie\CookieConsent\CookieConsentServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -229,7 +230,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class
+        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

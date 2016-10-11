@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\RentalOption;
 use App\Notifications\RentalConfirmed; 
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class RentalController
@@ -257,10 +258,51 @@ class RentalController extends Controller
     }
 
     /**
-     * [METHOD]:
+     * [METHOD]: Export all the rental to an excel sheet
+     *
+     * @url:platform
+     * @see:phpunit
+     *
+     * @return void | Excel download
      */
     public function exportExcel()
     {
+        Excel::create('Verhuringen', function ($excel) {
+            $excel->setOrientation('landscape');
 
+            // Sheet: for all the rentals.
+            $excel->sheet('alle verhuringen', function($sheet) {
+                $data['all'] = Rental::with('status')->get();
+                $sheet->loadView('view.name', $data['all']);
+            });
+
+            // Sheet: for rentals classified as option
+            $excel->sheet('Verhurings Opties', function($sheet) {
+                $data['option'] =  Rental::whereHas('status', function ($query) {
+                    $query->where('name', 'Optie');
+                })->get();
+
+                $sheet->loadView('view.name', $data['option']);
+            });
+
+            // Sheet: for rentals classified as new.
+            $excel->sheet('Nieuwe aanvragen', function($sheet) {
+                $data['new'] =  Rental::whereHas('status', function ($query) {
+                    $query->where('name', 'Nieuwe aanvraag');
+                })->get();
+
+                $sheet->loadView('view.name', $data['new']);
+            });
+
+            // Sheet: for rentals classified as confirmed.
+            $excel->sheet('Bevestigde verhuringen', function($sheet) {
+                $data['confirmed'] =  Rental::whereHas('status', function ($query) {
+                    $query->where('name', 'Bevestigd');
+                })->get();
+
+                $sheet->loadView('view.name', $data['confirmed']);
+            });
+
+        })->download('csv');
     }
 }
