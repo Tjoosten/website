@@ -1,5 +1,13 @@
 # Sijot website.
 
+## Info
+This website belongs to a local scouting group at Turnhout,Belguim. The website provides information such as :-
+* Branches
+* Photos
+* Schedule
+* Lease
+* Contact
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Tim Joosten at Topairy@gmail.com. All security vulnerabilities will be promptly addressed.
