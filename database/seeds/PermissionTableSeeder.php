@@ -19,8 +19,9 @@ class PermissionTableSeeder extends Seeder
 
         // INJECT DATA:
         // -------------
-        // TEMPLATE: Permisssion::create(['name' => '']);
+        // TEMPLATE: Permission::create(['name' => '']);
         Permission::create(['name' => 'blocked']);
         Permission::create(['name' => 'active']);
+        Permission::create(['name' => 'admin']);
     }
 }

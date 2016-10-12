@@ -49,7 +49,7 @@ class NewsController extends Controller
     }
 
     /**
-     * [METHOD]:
+     * [METHOD]: Store the news message in the database.
      * 
      * @url:platform 
      * @see:phpunit 
@@ -87,7 +87,7 @@ class NewsController extends Controller
     }
     
     /**
-     * [BACKEND]: 
+     * [BACKEND]: Edit view for a news message.
      * 
      * @url:platform
      * @see:phpunit
@@ -102,7 +102,7 @@ class NewsController extends Controller
     }
     
     /**
-     * [METHOD]: 
+     * [METHOD]: Update a news message in the database.
      * 
      * @url:platform 
      * @see:phpunit 
@@ -124,7 +124,7 @@ class NewsController extends Controller
     }
 
     /**
-     * [METHOD]: 
+     * [METHOD]: Set a news message to draft.
      * 
      * @url:platform 
      * @see:phpunit
@@ -144,7 +144,7 @@ class NewsController extends Controller
     }
   
     /**
-     * [METHOD]: 
+     * [METHOD]: Publish a news message form the draft status.
      * 
      * @see:platform 
      * @see:phpunit

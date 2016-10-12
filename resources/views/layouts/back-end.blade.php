@@ -19,6 +19,8 @@
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+        <script> window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?></script>
     </head>
 <body class="hold-transition @if(isset(auth()->user()->theme)) {{ auth()->user()->theme }} @else skin-blue @endif sidebar-mini">
     {{-- Site wrapper --}}
@@ -87,9 +89,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('logout') }}">
+                            <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <span class="fa fa-sign-out"></span>
                             </a>
+
+                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </li>
                     </ul>
                 </div>

@@ -91,7 +91,7 @@
                             <a href="{{route('rental.frontend.index') }}" class="list-group-item">
                                 <span class="fa fa-info-circle"></span> Informatie
                             </a>
-                             <a href="{{ route('rental.frontend.reachable')) }}" class="list-group-item">
+                             <a href="{{ route('rental.frontend.reachable') }}" class="list-group-item">
                                 <span class="fa fa-asterisk"></span>Bereikbaarheid
                             </a>
                             <a href="{{ route('rental.frontend-calendar') }}" class="list-group-item">
@@ -102,7 +102,7 @@
                                 <span class="fa fa-asterisk"></span>
                                 Verhuur aanvragen
                             </a>
-                            <a href="mailto:contact@sjoris-turnhout.be" class="list-group-item">
+                            <a href="mailto:contact@st-joris-turnhout.be" class="list-group-item">
                                 <span class="fa fa-envelope"></span> Contact
                             </a>
                         </div>

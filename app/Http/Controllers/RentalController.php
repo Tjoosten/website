@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\RentalOption;
 use App\Notifications\RentalConfirmed; 
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * Class RentalController
@@ -99,7 +100,9 @@ class RentalController extends Controller
      */
     public function setOption($id)
     {
-        if (Rental::find($id)->update(['status_id' => 1])) // Rental update check.
+        $status = RentalStatus::where('name', 'Optie')->first();
+
+        if (Rental::find($id)->update(['status_id' => $status->id])) // Rental update check.
         {
             session()->flash('class', 'alert alert-success');
             session()->flash('message', trans('flash-session.rental-option'));
@@ -119,7 +122,9 @@ class RentalController extends Controller
      */
     public function setConfirmed($id)
     {
-        if (Rental::find($id)->update(['status_id' => 2])) // Rental update check.
+        $status = RentalStatus::where('name', 'Bevestigd')->first();
+
+        if (Rental::find($id)->update(['status_id' => $status->id])) // Rental update check.
         {
             session()->flash('class', 'alert alert-success');
             session()->flash('message', trans('flash-session.rental-confirm'));
@@ -157,7 +162,7 @@ class RentalController extends Controller
     public function insert(Requests\RentalValidator $input)
     {
         $insert = Rental::create($input->except('_token'));
-        $status = RentalStatus::find(3);
+        $status = RentalStatus::where('name', 'Nieuwe aanvraag')->first();
 
         Rental::find($insert->id)->update(['status_id' => $status->id]);
 
@@ -257,10 +262,23 @@ class RentalController extends Controller
     }
 
     /**
-     * [METHOD]:
+     * [METHOD]: Export all the rental to an excel sheet
+     *
+     * @url:platform  GET|HEAD: /backend/rental/export
+     * @see:phpunit   RentalTest::
+     *
+     * @return void | Excel download
      */
     public function exportExcel()
     {
+        Excel::create('Verhuringen-'. date('d/m/Y'), function ($excel) {
 
+            // Sheet: for all the rentals.
+            $excel->sheet('Alle', function($sheet) {
+                $all = Rental::with('status')->get();
+                $sheet->loadView('rental.export.all', compact('all'));
+            });
+
+        })->download('xls');
     }
 }

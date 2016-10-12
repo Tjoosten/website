@@ -30,7 +30,7 @@ return [
     // Mailing flash sessions. 
     'mailing-register' => 'The email data has been saved in the mailing module.',
     'mailing-update'   => 'The email data has been updated.',
-    'mailing-destroy'  => 'The email data has been removed out off the mailing module.'
+    'mailing-destroy'  => 'The email data has been removed out off the mailing module.',
  
     // Settings flash messages. 
     

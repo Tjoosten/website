@@ -33,6 +33,8 @@ class UserTableSeeder extends Seeder
         $user2   = User::find($create2->id);
 
         $user1->givePermissionTo('active');
+        $user1->givePermissionTo('admin');
+
         $user2->givePermissionTo('active');
     }
 }

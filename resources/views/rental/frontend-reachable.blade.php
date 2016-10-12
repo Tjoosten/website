@@ -3,16 +3,37 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <img src="https://placehold.it/160x160" style="height:400px; width:100%; border-top-right-radius: 6px; border-top-left-radius: 6px;" alt="Alternate Text" />
+        <img src="https://placehold.it/160x160" class="img-front" alt="Alternate Text" />
     </div>
 </div>
-<div style="margin-bottom: -22px;" class="row">
+<div class="content-margin row">
     <div class="col-sm-12">
-        <div style="border-radius:0px; border: 0px;" class="panel panel-default">
+        <div class="panel panel-no-borders panel-default">
             <div class="panel-body">
                 <div class="col-md-8">
-                    <h3>Bereikbaarheid van het domein. </h3>    
+                    <div style="margin-top: -19px;" class="page-header">
+                        <h2 style="margin-bottom: -5px;">Verhuur bereikbaarheid</h2>
+                    </div>
+
                     <p>Ons domein is vlot te bereiken op de volgende manieren:</p>
+
+                    <h4>Openbaar vervoer:</h4>
+
+                    <p>
+                        U kunt de trein of bus naar turnhout nemen. En vervolgens kunt met de bus verder naar de scoutsdomeinen. (Sint-Jorislaan 11).
+                        De bus die u kunt nemen heeft de nr 2. vervolgens stapt u af aan in de rozenlaan.
+                        En vanaf daar is het nog slechts 500 meter wandelen.
+                    </p>
+
+                    <h4>Eigen vervoer:</h4>
+
+                    <p>
+                        - Neem de E34 afslag 24 Turnhout-centrum. <br>
+                        - Neem vervolgens de N19 richting Steenweg op Zevendonk.v <br>
+                        - Sla vervolgens Steenweg op Zevendonk in. <br>
+                        - Sla vervolgens de Sint-Jorislaan in <br>
+                    </p>
+
                     
                 </div>
 

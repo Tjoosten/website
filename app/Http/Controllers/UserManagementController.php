@@ -148,7 +148,7 @@ class UserManagementController extends Controller
     {
         $user = User::findOrFail($id);
         $user->revokePermissionTo('active');
-        $user->givePermssionTo('blocked');
+        $user->givePermissionTo('blocked');
 
         // Delete session if user is authencated.
         DB::table('sessions')->where('user_id', $id)->delete();
