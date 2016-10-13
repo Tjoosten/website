@@ -6,6 +6,9 @@ php:
     - hhvm
 
 before_script:
+    - touch .env
+    - echo "APP_KEY=SmduSUaF1KAAwhRIP6yLHgw0KzebWC6Z" >> .env
+    - echo "DB_CONNECTION=sqlite" >> .env
     - touch database/database.sqlite
     - travis_retry composer self-update
     - travis_retry composer install --no-interaction --prefer-source --dev

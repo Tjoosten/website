@@ -14,10 +14,10 @@ use Carbon\Carbon;
 */
 $factory->define(App\Rental::class, function (Faker\Generator $faker) {
     return [
-        'start_date'   => $faker->word, 
-        'end_date'     => $faker->word, 
+        'start_date'   => $faker->word,
+        'end_date'     => $faker->word,
         'group'        => $faker->name,
-        'phone_number' => $faker->phoneNumber, 
+        'phone_number' => $faker->phoneNumber,
         'email'        => $faker->email
     ];
 
@@ -49,10 +49,12 @@ $factory->define(App\Groups::class, function (Faker\Generator $faker) {
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
+    $themes = array('skin-black','skin-black-light','skin-blue','skin-blue-light','skin-green','skin-green-light','skin-purple','skin-purple-light','skin-red','skin-red-light','skin-yellow','skin-yellow-light');
 
     return [
         'name'           => $faker->name,
         'email'          => $faker->safeEmail,
+        'theme'          => array_rand($themes),
         'password'       => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
