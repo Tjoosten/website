@@ -14,8 +14,8 @@ use Carbon\Carbon;
 */
 $factory->define(App\Rental::class, function (Faker\Generator $faker) {
     return [
-        'start_date'   => $faker->word,
-        'end_date'     => $faker->word,
+        'start_date'   => Carbon::today(),
+        'end_date'     => Carbon::tomorrow(),
         'group'        => $faker->name,
         'phone_number' => $faker->phoneNumber,
         'email'        => $faker->email

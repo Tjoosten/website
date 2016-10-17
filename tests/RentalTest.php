@@ -10,6 +10,11 @@ class RentalTest extends TestCase
     // DatabaseTransactions = Running queries against the database stub.
     use DatabaseMigrations, DatabaseTransactions;
 
+    public function setUp() {
+        parent::setUp();
+
+        $this->seed('RentalStatusSeeder');
+    }
     /**
      * GET|HEAD:  /rental
      * ROUTE:     rental.frontend.index
@@ -20,10 +25,27 @@ class RentalTest extends TestCase
      */
     public function testFrontendOverView()
     {
-
+        $this->visit(route('rental.frontend.index'));
+        $this->seeStatusCode(200);
     }
-
     /**
+     * GET\HEAD:  /backend/rental
+     * ROUTE:     rental.backend
+     *
+     * @group backend
+     * @group all
+     * @group rental
+     */
+    public function testBackendOverView()
+    {
+        $this->authentication();
+        $this->visit(route('rental.backend'));
+        $this->seeStatusCode(200);
+    }
+    /**
+     * POST:  /rental/insert
+     * ROUTE: rental.store
+     *
      * @group frontend
      * @group backend
      * @group all
@@ -31,21 +53,31 @@ class RentalTest extends TestCase
      */
     public function testRentalInsertErrors()
     {
-
+        $this->post(route('rental.store'), []);
+        $this->seeStatusCode(302);
+        $this->assertHasOldInput();
+        $this->assertSessionHasErrors();
     }
 
     /**
+     * GET\HEAD: /rental/reachable
+     * ROUTE:    rental.frontend.reachable
+     *
      * @group frontend
      * @group backend
      * @group all
      * @group rental
      */
-    public function testReachablePage() 
+    public function testReachablePage()
     {
-
+        $this->visit(route('rental.frontend.reachable'));
+        $this->seeStatusCode(200);
     }
 
     /**
+     * POST:  /rental/insert
+     * ROUTE: rental.store
+     *
      * @group frontend
      * @group backend
      * @group all
@@ -53,47 +85,94 @@ class RentalTest extends TestCase
      */
     public function testRentalInsertSuccess()
     {
+        $rental = factory(App\Rental::class)->make();
+        $check = array_merge($rental->toArray(),[
+          'start_date' => $rental->start_date->timestamp,
+          'end_date' => $rental->end_date->timestamp
+        ]);
 
+        $this->authentication();
+        $this->dontSeeInDatabase('rentals', $check);
+        $this->post(route('rental.store', $rental->toArray()));
+        $this->seeInDatabase('rentals', $check);
+        $this->seeStatusCode(302);
     }
 
-	/**
+    /**
      * @group backend
-	 * @group all
+     * @group all
      * @group rental
-	 */
-	public function testRentalUpdateView()
-	{
+	  */
+	   public function testRentalUpdateView()
+     {
+     }
+     /**
+      * PUT\PATCH:  /backend/rental/update/{$id}
+      * ROUTE:      rental.backend.update
+      *
+      * @group backend
+      * @group all
+      * @group rental
+     */
+     public function testRentalUpdateWithoutSuccess()
+     {
+        $rental = factory(App\Rental::class)->create();
 
-	}
+        $this->authentication();
+        $this->put(route('rental.backend.update', ['id' => $rental->id]));
+        $this->seeStatusCode(302);
+        $this->assertSessionHasErrors();
+        $this->assertHasOldInput();
+     }
 
-	/**
-     * @group backend
-	 * @group all
-     * @group rental
-	 */
-	public function testRentalUpdateWithoutSuccess()
-	{
+     /**
+      * PUT\PATCH:  /backend/rental/update/{$id}
+      * ROUTE:      rental.backend.update
+      *
+      * @group backend
+      * @group all
+      * @group rental
+     */
+     public function testRentalUpdateWithSuccess()
+     {
+        $rental = factory(App\Rental::class)->create();
+        $rentalUpdate = factory(App\Rental::class)->make([
+          'id' => $rental->id
+        ]);
+        $check = [
+          'group' => $rentalUpdate->group,
+          'phone_number' => $rentalUpdate->phone_number,
+          'email' => $rentalUpdate->email,
+        ];
 
-	}
-
-	/**
-     * @group backend
-	 * @group all
-     * @group rental
-	 */
-	public function testRentalUpdateWithSuccess()
-	{
-
-	}
+        $this->authentication();
+        $this->put(route('rental.backend.update', $rentalUpdate->toArray()));
+        $this->seeInDatabase('rentals', $check);
+        $this->seeStatusCode(302);
+     }
 
     /**
+     * GET\HEAD:  /backend/rental/destroy/{$id}
+     * ROUTE:     rental.backend.destroy
+     *
      * @group backend
      * @group all
      * @group rental
      */
     public function testRentalDelete()
     {
+        $rental = factory(App\Rental::class)->create();
+        $data = ['id' => $rental->id];
 
+        $session['class'] = 'alert alert-success';
+        $session['message'] = '';
+
+        $this->authentication();
+        $this->seeInDatabase('rentals', $data);
+        $this->get(route('rental.backend.destroy', $data));
+        $this->dontSeeInDatabase('rentals', $data);
+        $this->seeStatusCode(302);
+        $this->session($session);
     }
 
     /**
@@ -106,6 +185,8 @@ class RentalTest extends TestCase
      */
     public function testRentalCalendar()
     {
+        $this->visit(route('rental.frontend-calendar'));
+        $this->seeStatusCode(200);
     }
 
     /**
@@ -118,11 +199,12 @@ class RentalTest extends TestCase
      */
     public function testRentalInsertFormFrontEnd()
     {
-
+        $this->visit(route('rental.frontend.insert'));
+        $this->seeStatusCode(200);
     }
 
     /**
-     * GET|HEAD:  /
+     * GET|HEAD:  /backend/rental/insert
      * ROUTE:     rental.backend.insert
      *
      * @group rental
@@ -131,6 +213,8 @@ class RentalTest extends TestCase
      */
     public function testRentalInsertFormBackend()
     {
-
+        $this->authentication();
+        $this->visit(route('rental.backend.insert'));
+        $this->seeStatusCode(200);
     }
 }
