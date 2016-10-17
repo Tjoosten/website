@@ -86,13 +86,10 @@ class RentalTest extends TestCase
     public function testRentalInsertSuccess()
     {
         $rental = factory(App\Rental::class)->make();
-        $check = [
-          'group' => $rental->group,
-          'phone_number' => $rental->phone_number,
-          'email' => $rental->email,
+        $check = array_merge($rental->toArray(),[
           'start_date' => $rental->start_date->timestamp,
           'end_date' => $rental->end_date->timestamp
-        ];
+        ]);
 
         $this->authentication();
         $this->dontSeeInDatabase('rentals', $check);
@@ -120,10 +117,9 @@ class RentalTest extends TestCase
      public function testRentalUpdateWithoutSuccess()
      {
         $rental = factory(App\Rental::class)->create();
-        $data = ['id' => $rental->id];
 
         $this->authentication();
-        $this->post(route('rental.backend.update', $data));
+        $this->put(route('rental.backend.update', ['id' => $rental->id]));
         $this->seeStatusCode(302);
         $this->assertSessionHasErrors();
         $this->assertHasOldInput();
@@ -140,13 +136,18 @@ class RentalTest extends TestCase
      public function testRentalUpdateWithSuccess()
      {
         $rental = factory(App\Rental::class)->create();
-        $rentalUpdate = factory(App\Rental::class)->make()->toArray();
-        $rentalUpdate['id'] = $rental->id;
+        $rentalUpdate = factory(App\Rental::class)->make([
+          'id' => $rental->id
+        ]);
+        $check = [
+          'group' => $rentalUpdate->group,
+          'phone_number' => $rentalUpdate->phone_number,
+          'email' => $rentalUpdate->email,
+        ];
 
         $this->authentication();
-        $this->dontSeeInDatabase('rentals', $rentalUpdate);
-        $this->put(route('rental.backend.update'));
-        $this->seeInDatabase('rentals', $rentalUpdate);
+        $this->put(route('rental.backend.update', $rentalUpdate->toArray()));
+        $this->seeInDatabase('rentals', $check);
         $this->seeStatusCode(302);
      }
 
