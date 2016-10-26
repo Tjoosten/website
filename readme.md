@@ -24,3 +24,4 @@ The Sijot website is open-sourced software licensed under the [MIT license](http
 
 ## Contributing
 Contributions are highly appreciated. Please read the [contribution guidelines](contributing.md) here.
+
