@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "sijot/website",
+    "description": "The scouting website for local scouting group Sint-Joris",
+    "keywords": ["laravel", 'website', "sijot"],
     "license": "MIT",
     "type": "project",
     "require": {
