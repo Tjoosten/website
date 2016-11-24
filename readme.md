@@ -15,6 +15,14 @@ This website belongs to a local scouting group at Turnhout,Belguim. The website 
 * Lease
 * Contact
 
+## Info
+This website belongs to a local scouting group at St.George. The website provide information such as :-
+* Branches
+* Photos
+* Schedule
+* Lease
+* Contact
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within this project,
