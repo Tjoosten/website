@@ -55,11 +55,20 @@ $factory->define(App\Activity::class, function (Faker\Generator $faker) {
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
-    $themes = array('skin-black','skin-black-light','skin-blue','skin-blue-light','skin-green','skin-green-light','skin-purple','skin-purple-light','skin-red','skin-red-light','skin-yellow','skin-yellow-light');
+
+    $themes = [
+        'skin-black','skin-black-light',
+        'skin-blue','skin-blue-light',
+        'skin-green','skin-green-light',
+        'skin-purple','skin-purple-light',
+        'skin-red','skin-red-light',
+        'skin-yellow','skin-yellow-light'
+    ];
 
     return [
         'name'           => $faker->name,
         'email'          => $faker->safeEmail,
+        'avatar'         => '/path/to/avatar',
         'theme'          => $themes[array_rand($themes)],
         'password'       => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
@@ -67,7 +76,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Tags::class, function (Faker\Generator $faker) {
-    $classes = ['label label-default', 'label label-primary', 'label label-success', 'label label-info', 'label label-warning', 'label label-danger'];
+    $classes = [
+        'label label-default', 'label label-primary',
+        'label label-success', 'label label-info',
+        'label label-warning', 'label label-danger'
+    ];
 
     return [
         'name'   => $faker->word,
@@ -81,4 +94,12 @@ $factory->define(App\News::class, function (Faker\Generator $faker) {
         'heading' => $faker->words(3, true),
         'content' => $faker->text(200),
     ];
+});
+
+$factory->define(Spatie\Permission\Models\Permission::class, function (Faker\Generator $faker) {
+    return ['name' => 'active'];
+});
+
+$factory->define(Spatie\Permission\Models\Role::class, function (Faker\Generator $faker) {
+    return ['name' => $faker->word];
 });

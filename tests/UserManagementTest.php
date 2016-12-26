@@ -1,9 +1,13 @@
 <?php
 
+use App\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+/**
+ * Class UserManagementTest
+ */
 class UserManagementTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
@@ -25,7 +29,78 @@ class UserManagementTest extends TestCase
     }
 
     /**
+     * GET|HEAD: /backend/users/block/{id}
+     * ROUTE:    users.block
+     *
+     * @group all
+     * @group auth
+     * @group backend
+     */
+    public function testBlockUser()
+    {
+        factory(Spatie\Permission\Models\Permission::class)->create(['name' => 'blocked']);
+        factory(Spatie\Permission\Models\Permission::class)->create(['name' => 'active']);
+
+        $route = route('users.block', ['id' => $this->user->id]);
+
+        $this->authentication();
+        $this->get($route);
+        $this->seeStatusCode(302);
+        $this->session([
+            'class'     => 'alert alert-success',
+            'message'   => trans('flash-session.user-block')
+        ]);
+    }
+
+    /**
+     * GET|HEAD: /backend/users/unblock/{id}
+     * ROUTE:    users.unblock
+     *
+     * @group all
+     * @group auth
+     * @group backend
+     */
+    public function testUnblockUser()
+    {
+        factory(Spatie\Permission\Models\Permission::class)->create(['name' => 'blocked']);
+        factory(Spatie\Permission\Models\Permission::class)->create(['name' => 'active']);
+
+        $route = route('users.unblock', ['id' => $this->user->id]);
+
+        $this->authentication();
+        $this->get($route);
+        $this->seeStatusCode(302);
+        $this->session([
+            'class'     => 'alert alert-success',
+            'message'   => trans('flash-session.user-unblock')
+        ]);
+    }
+
+    /**
+     * POST:
+     * ROUTE:
+     *
+     * @group all
+     * @group auth
+     * @group backend
+     */
+    public function testSearchBackend()
+    {
+        $user  = factory(App\User::class)->create();
+        $route = route('users.search');
+        $input = ['name', $user->name];
+
+        $this->authentication();
+        $this->post($route, $input);
+        $this->see($user->name);
+        $this->see($user->email);
+        $this->see($user->created_at);
+        $this->seeStatusCode(200);
+    }
+
+    /**
      * GET|HEAD:
+     * ROUTE:
      *
      * @group all
      * @group auth
@@ -39,26 +114,25 @@ class UserManagementTest extends TestCase
     }
 
     /**
-     * GET|HEAD:
-     * ROUTE:
+     * GET|HEAD: /backend/users/reset/{id}
+     * ROUTE:    users.reset
      *
      * @group all
      * @group auth
      * @group backend
      */
-    public function testPasswordReset()
+    public function testUserPasswordReset()
     {
-        $user  = factory(App\User::class)->make();
-        $route = 'backend/users/reset/' . $user->id;
+        $route = route('users.reset', ['id' => $this->user->id]);
 
-        // Session data
-        $session['class']   = 'alert alert-success';
-        $session['message'] = trans('flash-session.user-reset');
+        $data['class']   = 'alert alert-danger';
+        $data['message'] = trans('flash-session.user-reset');
 
-        $this->post($route);
-        // $this->dontSeeInDatabase('users', ['password' => $user->password]);
-        $this->seeStatusCode(404); // TODO: Need a bug fix.
-        $this->session($session);
+        $this->authentication();
+        $this->get($route);
+        $this->session($data);
+        $this->dontSeeInDatabase('users', ['password' => $this->user->password]);
+        $this->seeStatusCode(302);
     }
 
     /**
@@ -92,6 +166,9 @@ class UserManagementTest extends TestCase
      */
     public function testCreateMethodWithoutErrors()
     {
+        factory(Spatie\Permission\Models\Permission::class)->create(['name' => 'active']);
+        factory(Spatie\Permission\Models\Permission::class)->create(['name' => 'blocked']);
+
         $session['class']   = 'alert alert-success';
         $session['message'] = '';
 

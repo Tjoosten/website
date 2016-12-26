@@ -167,6 +167,14 @@ class ActivityControllerTest extends TestCase
             ->see('This is new activity');
     }
 
+    /**
+     *
+     */
+    public function testEditView()
+    {
+
+    }
+
      /**
      * GET|HEAD:  /backend/activity
      * ROUTE:     activity.store
@@ -206,5 +214,15 @@ class ActivityControllerTest extends TestCase
         $this->actingAs($user)->visit('/backend/activity')
             ->press('Aanmaken')
             ->see('Er zijn geen klad activiteiten');
+    }
+
+    /**
+     * @group all
+     * @group activity
+     * @group back-end
+     */
+    public function testEdit()
+    {
+
     }
 }

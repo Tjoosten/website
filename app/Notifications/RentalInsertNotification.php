@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class RentalOption extends Notification
+class RentalInsertNotification extends Notification
 {
     use Queueable;
 
@@ -41,7 +41,8 @@ class RentalOption extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'A rental is set the option.'
+            'user_id' => auth()->user()->id,
+            'message' => 'Added a new rental in the system.'
         ];
     }
 }

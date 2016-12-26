@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Mail\RentalNotification;
 use App\Mail\RentalNotificationRequest;
 use App\Http\Requests;
+use App\Notifications\RentalInsertNotification;
 use App\Rental;
 use App\User;
 use App\RentalStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\RentalOption;
 use App\Notifications\RentalConfirmed; 
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -83,7 +83,7 @@ class RentalController extends Controller
     public function calendar()
     {
         $data['items'] = Rental::whereHas('status', function ($query) {
-            $query->where('name', 'Bevestigd');
+            $query->where('name', trans('rental.confirm'));
         })->get();
 
         return view('rental.frontend-calendar', $data);
@@ -92,15 +92,15 @@ class RentalController extends Controller
     /**
      * [METHOD]: Set a rental status to 'Option'.
      *
-     * @url:platform
-     * @see:phpunit
+     * @url:platform  GET|HEAD:
+     * @see:phpunit   RentalTest::testSetOptionRental();
      *
      * @param  int $id the rental id in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function setOption($id)
     {
-        $status = RentalStatus::where('name', 'Optie')->first();
+        $status = RentalStatus::where('name', trans('rental.lease-option'))->first();
 
         if (Rental::find($id)->update(['status_id' => $status->id])) // Rental update check.
         {
@@ -114,15 +114,15 @@ class RentalController extends Controller
     /**
      * [METHOD]: Set a rental status to 'confirmed'.
      *
-     * @url:platform
-     * @see:phpunit
+     * @url:platform  GET|HEAD:
+     * @see:phpunit   RentalTest::testSetConfirmedRental()
      *
      * @param  int $id the rental id in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function setConfirmed($id)
     {
-        $status = RentalStatus::where('name', 'Bevestigd')->first();
+        $status = RentalStatus::where('name', trans('rental.lease-confirm'))->first();
 
         if (Rental::find($id)->update(['status_id' => $status->id])) // Rental update check.
         {
@@ -162,7 +162,7 @@ class RentalController extends Controller
     public function insert(Requests\RentalValidator $input)
     {
         $insert = Rental::create($input->except('_token'));
-        $status = RentalStatus::where('name', 'Nieuwe aanvraag')->first();
+        $status = RentalStatus::where('name', trans('rental.lease-new'))->first();
 
         Rental::find($insert->id)->update(['status_id' => $status->id]);
 
@@ -174,15 +174,14 @@ class RentalController extends Controller
             if (! auth()->check()) // No logged in user found.
             {
                 $rental = Rental::find($insert->id);
-                $logins = User::with('permissions')->whereIn('name', ['rental']);
+                $logins = User::with('permissions')->whereIn('name', ['rental'])->get();
 
-                Mail::to($insert)->queue(new RentalNotificationRequest($rental));
                 Mail::to($logins)->queue(new RentalNotification($rental));
+                Mail::to($insert)->queue(new RentalNotificationRequest($rental));
             } 
             elseif (auth()->check()) // User is authencated. Send notification.
             {
-                // TODO: Create the notification class.
-                // Notification::send(User::all(), new RentalInsertNotification());
+                Notification::send(User::all(), new RentalInsertNotification());
             }
         }
 
@@ -265,7 +264,7 @@ class RentalController extends Controller
      * [METHOD]: Export all the rental to an excel sheet
      *
      * @url:platform  GET|HEAD: /backend/rental/export
-     * @see:phpunit   RentalTest::
+     * @see:phpunit   RentalTest::testExport()
      *
      * @return void | Excel download
      */

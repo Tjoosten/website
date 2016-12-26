@@ -44,11 +44,6 @@ class GroupController extends Controller
 	 */
 	public function overview()
 	{
-        // TODO: Controller needs debugging.
-
-        $groups = Groups::all(['selector']);
-        // dd($groups);
-
         $data['kapoenen']   = Groups::getGroup('kapoenen')->get();
         $data['welpen']     = Groups::getGroup('welpen')->get();
         $data['jongGivers'] = Groups::getGroup('jonggivers')->get();

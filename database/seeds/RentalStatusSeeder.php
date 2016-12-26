@@ -14,15 +14,15 @@ class RentalStatusSeeder extends Seeder
     {
         $data = [
             [
-                'name'  => 'Optie', 
+                'name'  => trans('rental.lease-option'),
                 'class' => 'label label-warning',
             ], 
             [
-                'name'  => 'Bevestigd',
+                'name'  => trans('rental.lease-confirm'),
                 'class' => 'label label-success', 
             ], 
             [
-                'name'  => 'Nieuwe aanvraag', 
+                'name'  => trans('rental.lease-new'),
                 'class' => 'label label-danger',
             ],
         ];

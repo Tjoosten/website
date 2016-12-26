@@ -3,12 +3,13 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Spinen\MailAssertions\MailTracking;
 
 class RentalTest extends TestCase
 {
     // DatabaseMigrations   = Running migrations agianst the database stub.
     // DatabaseTransactions = Running queries against the database stub.
-    use DatabaseMigrations, DatabaseTransactions;
+    use DatabaseMigrations, DatabaseTransactions, MailTracking;
 
     /**
      * GET|HEAD:  /rental
@@ -64,7 +65,7 @@ class RentalTest extends TestCase
     public function testRentalInsertSuccess()
     {
         factory(App\RentalStatus::class)->create([
-            'name' => 'Nieuwe aanvraag',
+            'name' => trans('rental.lease-new'),
             'class' => 'label label-danger'
         ]);
 
@@ -147,6 +148,62 @@ class RentalTest extends TestCase
     }
 
     /**
+     * GET|HEAD: /backend/rental/option/{id}
+     * ROUTE:    rental.backend.option
+     *
+     * @group backend
+     * @group all
+     * @group rental
+     */
+    public function testSetOptionRental()
+    {
+        $lease  = factory(App\Rental::class)->create();
+        $status = factory(App\RentalStatus::class)->create([
+            'name' => trans('rental.lease-option')
+        ]);
+
+        $route = route('rental.backend.option', [
+            'id' => $lease->id
+        ]);
+
+        $session['class']   = 'alert alert-success';
+        $session['message'] = trans('flash-session.rental-option');
+
+        $this->authentication();
+        $this->get($route);
+        $this->session($session);
+        $this->seeStatusCode(302);
+    }
+
+    /**
+     * GET|HEAD: /backend/rental/confirm/{id}
+     * ROUTE:    rental.backend.confirm
+     *
+     * @group backend
+     * @group all
+     * @group rental
+     */
+    public function testSetConfirmedRental()
+    {
+        $lease  = factory(App\Rental::class)->create();
+        $status = factory(App\RentalStatus::class)->create([
+            'name' => trans('rental.lease-confirm')
+        ]);
+
+        $route = route('rental.backend.confirm', [
+            'id' => $lease->id
+        ]);
+
+        $session['class']   = 'alert alert-success';
+        $session['message'] = trans('flash-session.rental-confirm');
+
+        $this->authentication();
+        $this->get($route);
+        $this->session($session);
+        $this->seeStatusCode(302);
+    }
+
+    /**
      * GET|HEAD: /rental/insert
      * ROUTE:    rental.frontend.insert
      *
@@ -163,6 +220,17 @@ class RentalTest extends TestCase
     }
 
     /**
+     * @group backend
+     * @group all
+     * @group rental
+     */
+    public function testExport()
+    {
+        $this->authentication();
+        $this->get(route('rental.backend.export'));
+    }
+
+    /**
      * GET|HEAD:  /
      * ROUTE:     rental.backend.insert
      *
@@ -176,5 +244,25 @@ class RentalTest extends TestCase
         $this->visit(route('rental.backend'));
         $this->seeStatusCode(200);
         $this->see('Verhuring toevoegen.');
+    }
+
+    public function testRentalInsertNoAuth()
+    {
+        factory(Spatie\Permission\Models\Permission::class)->create(['name' => 'rental']);
+        factory(App\RentalStatus::class)->create(['name' => trans('rental.lease-new')]);
+
+        // TODO: Make test email for the permission user.
+        $this->visit(route('rental.store'))
+            ->type('2016-10-14 14:50:51', 'start_date')
+            ->type('2016-10-14 14:50:51', 'end_date')
+            ->type('Cubbs', 'group')
+            ->type('tjoosten@gmail.com', 'email')
+            ->type('08132009384', 'phone_number')
+            ->press('Aanvragen')
+            ->seePageIs(route('rental.frontend.insert'))
+            ->seeEmailWasSent()
+            ->seeEmailTo('tjoosten@gmail.com')
+            ->see('Verhuur aanvraag.');
+
     }
 }

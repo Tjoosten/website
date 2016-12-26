@@ -145,8 +145,6 @@ class ActivityController extends Controller
      */
     public function destroy($id)
     {
-        $activity = Activity::find($id);
-
         if (Activity::destroy($id)) {
             session()->flash('class', 'alert alert-success');
             session()->flash('message', trans('flash-session.activity-destroy'));

@@ -80,6 +80,8 @@ class MailingTest extends TestCase
      */
     public function testMailingInsertWithoutError()
     {
+        factory(Spatie\Permission\Models\Permission::class)->create();
+
         $input['email'] = 'jhon@doe.tld';
 
         $this->post(route('newsletter.register'), $input);

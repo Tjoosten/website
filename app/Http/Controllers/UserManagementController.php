@@ -21,13 +21,6 @@ use Illuminate\Support\Facades\DB;
 class UserManagementController extends Controller
 {
     /**
-     * @todo: build up the mailable views.
-     * @todo: write search controller & test.
-     * @todo: Implement user specific index view.
-     * @todo: add create new user wizard.
-     */
-
-    /**
      * UserManagementController constructor.
      */
     public function __construct()
@@ -64,13 +57,18 @@ class UserManagementController extends Controller
     }
 
     /**
+     * Reset the password for a specific user.
+     *
+     * @url:platform  GET|HEAD: /backend/users/reset/{id}
+     * @see:phpunit   UserManagementTest::testUserPasswordReset()
+     *
      * @param  int $id The user id in the database.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function resetPassword($id)
     {
-        $user = User::find($id);
-        $user->password =  str_random(16);
+        $user = User::findOrFail($id);
+        $user->password =  bcrypt(str_random(16));
 
         if ($user->save()) // If the user has been updated;
         {
@@ -82,17 +80,35 @@ class UserManagementController extends Controller
     }
 
     /**
-     * [METHOD]: Search for a specific user.
+     * Show the details for a specific user.
      *
-     * @url:platform  POST:
-     * @see:phpunit   UserManagementTest::
+     * @url:platform  GET|HEAD:
+     * @see:phpunit
      *
+     * @param  int $id The user id in the database.
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function search()
+    public function show($id)
     {
-        $data['users'] = '';
+        $data['user'] = User::findOrFail($id);
         return view('', $data);
+    }
+
+    /**
+     * [METHOD]: Search for a specific user.
+     *
+     * @url:platform  POST: /backend/users/search
+     * @see:phpunit   UserManagementTest::testSearchBackend()
+     *
+     * @param  Request $input
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(Request $input)
+    {
+        $term = $input->get('term');
+
+        $data['users'] = User::where('name', 'LIKE', "%$term%")->get();
+        return view('users.index', $data);
     }
 
     /**
@@ -107,15 +123,16 @@ class UserManagementController extends Controller
      */
     public function store(LoginValidator $input)
     {
-        $password = str_random(16);
-        $data     = array_merge(['password' => bcrypt($password)], $input->except('_token'));
+        $db['password'] = bcrypt(str_random(16));
+        $db['theme']    = 'skin-red';
+
+        $data     = array_merge($db, $input->except('_token'));
         $newUser  = User::create($data);
 
         $findNewUser = User::find($newUser->id);
-        $setPass     = $findNewUser->update(['password' => $password]);
+        $setStatus     = $findNewUser->givePermissionTo('active');
 
-        if ($newUser && $setPass) {
-            // TODO: Build up the mail.
+        if ($newUser && $setStatus) {
             Mail::to($findNewUser->email)->send(new NewUser($findNewUser));
 
             session()->flash('class', 'alert alert-success');

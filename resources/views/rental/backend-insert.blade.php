@@ -16,7 +16,8 @@
                         <div class="form-group">
                             <label for="start" class="col-sm-3 control-label">
                                 <span class="pull-right">
-                                    Start datum:<span class="text-danger">*</span>    
+                                    {{ trans('rental.lease-start-date') }}
+                                    <span class="text-danger">*</span>
                                 </span>
                             </label>
 
@@ -28,7 +29,8 @@
                         <div class="form-group">
                             <label for="end" class="col-sm-3 control-label">
                                 <span class="pull-right">
-                                    Eind datum: <span class="text-danger">*</span>
+                                    {{ trans('rental.lease-end-date') }}
+                                    <span class="text-danger">*</span>
                                 </span>
                             </label>
 
@@ -40,7 +42,8 @@
                         <div class="form-group">
                             <label for="group" class="col-sm-3 control-label">
                                 <span class="pull-right">
-                                    Groep: <span class="text-danger">*</span>
+                                    {{ trans('rental.lease-group') }}
+                                    <span class="text-danger">*</span>
                                 </span>
                             </label>
 
@@ -52,7 +55,8 @@
                         <div class="form-group">
                             <label for="email" class="col-sm-3 control-label">
                                 <span class="pull-right">
-                                    Email adres: <span class="text-danger">*</span>
+                                    {{ trans('rental.lease-email') }}
+                                    <span class="text-danger">*</span>
                                 </span>
                             </label>
 
@@ -63,7 +67,9 @@
 
                         <div class="form-group">
                             <label for="number" class="col-sm-3 control-label">
-                                <span class="pull-right">Tel. nummer:</span>
+                                <span class="pull-right">
+                                    {{ trans('rental.lease-phone-number') }}
+                                </span>
                             </label>
 
                             <div class="col-sm-5">
@@ -73,9 +79,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Toevoegen</button>
+                <button type="submit" class="btn btn-success">
+                    {{ trans('rental.lease-button-add') }}
+                </button>
                 </form>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    {{ trans('rental.lease-button-close') }}
+                </button>
             </div>
         </div>
 

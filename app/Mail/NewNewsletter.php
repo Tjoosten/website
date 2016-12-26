@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class newNewsletter extends Mailable
+class NewNewsletter extends Mailable
 {
     use Queueable, SerializesModels;
 

@@ -26,13 +26,22 @@
     </ul>
 
     <div class="tab-content">
-
         {{-- Account information --}}
         <div class="tab-pane fade in active" id="tab_1">
             <div class="row">
-                <form action="" method="POST" class="form-horizontal">
+                <form action="{{ route('settings.profile.post') }}" method="POST" class="form-horizontal" enctype="multipart/form-data">
                     {{-- CSRF TOKEN --}}
                     {{ csrf_field() }}
+
+                    <div class="form-group">
+                        <label for="avatar" class="control-label col-sm-1">
+                            Avatar: <!-- <span class="text-danger">*</span> -->
+                        </label>
+
+                        <div class="col-sm-2">
+                            <input type="file" name="avatar" id="avatar">
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="name" class="control-label col-sm-1">
@@ -63,27 +72,57 @@
                             <select id="view" class="form-control" name="theme">
                                 <option value="">-- Selecteer uw weergave --</option>µ
 
-                                @foreach($themes as $theme) 
-                                    <option value="{{ $theme->class }}">{{ $theme->name }}</option>
+                                @foreach($themes as $theme)
+                                    <option value="{{ $theme->class }}" @if(auth()->user()->theme === $theme->class) selected @endif>
+                                        {{ $theme->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-                </form>
-            </form>
-        </div>
-        {{-- /Account information--}}
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-9">
+                            <button type="submit" class="btn btn-sm btn-flat btn-success">Wijzigen.</button>
+                            <button type="reset" class="btn btn-danger btn-flat btn-sm">Reset</button>
+                        </div>
+                    </div>
 
-        {{-- Account security --}}
-        <div class="tab-pane fade in" id="tab_2">
-            <div class="row">
-                <form action="" method="POST" class="form-horizontal">
-                    {{-- CSRF Token --}}
-                    {{ csrf_field() }}
                 </form>
             </div>
         </div>
-        {{-- /Account security --}}
+        {{-- /Account information --}}
+
+        <div class="tab-pane fade in" id="tab_2">
+            <form action="" class="form-horizontal" method="POST">
+                <div class="form-group">
+                    <label class="control-label col-sm-1">
+                        Wachtwoord: <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" name="password" placeholder="Nieuw wachtwoord" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-1">
+                        Bevestiging: <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="col-sm-2">
+                        <input class="form-control" name="password_confirmation" placeholder="Wachtwoord bevestiging" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-1 cols-sm-9">
+                        <button type="submit" class="btn btn-sm btn-flat btn-success">Wijzigen</button>
+                        <button type="reset" class="btn btn-sm btn-flat btn-danger">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 @endsection

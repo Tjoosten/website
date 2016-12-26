@@ -25,6 +25,7 @@ return [
      | the redirect. These are typical used in the flash sessions.
      |
      */
-    'FlashInfo' => 'The account information has been updated.'
+    'FlashInfo' => 'The account information has been updated.',
+    'FlashSec'  => 'The password information has been updated.'
 
 ];

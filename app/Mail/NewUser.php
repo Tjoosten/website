@@ -7,18 +7,30 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+/**
+ * Class NewUser
+ * 
+ * @package App\Mail
+ */
 class NewUser extends Mailable
 {
     use Queueable, SerializesModels;
+
+    /**
+     * The user data.
+     *
+     * @var array
+     */
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**

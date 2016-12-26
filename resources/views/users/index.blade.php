@@ -17,8 +17,8 @@
         <h3 class="box-title">Overzicht.</h3>
 
         <div class="box-tools pull-right">
-            <a href="#"><span class="label label-danger">Gebruiker zoeken</span></a>
-            <a href="#"><span class="label label-success">Gebruiker toevoegen</span></a>
+            <a href="#" class="label label-danger" data-toggle="modal" data-target="#searchUser">Gebruiker zoeken</a>
+            <a href="#" class="label label-success" data-toggle="modal" data-target="#newUser">Gebruiker toevoegen.</a>
         </div>
     </div>
     <div class="box-body no-padding">
@@ -26,11 +26,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Naam:</th>
-                    <th>Email:</th>
-                    <th>Status:</th>
-                    <th>Gebruikers groepen:</th>
-                    <th>Gecreerd op:</th>
+                    <th>{{ trans('user-management.table-name') }}</th>
+                    <th>{{ trans('user-management.table-email') }}</th>
+                    <th>{{ trans('user-management.table-status') }}</th>
+                    <th>{{ trans('user-management.table-user-groups') }}</th>
+                    <th>{{ trans('user-management.table-creation') }}</th>
                     <th></th> {{-- Function(s) --}}
                 </tr>
             </thead>
@@ -88,15 +88,12 @@
     </div>
     {{-- /.box-body --}}
 
-    <div class="box-footer clearfix">
-        <ul class="pagination pagination-sm no-margin">
-            <li><a href="#"><span class="fa fa-angle-left"></a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#"><span class="fa fa-angle-right"></a></li>
-        </ul>
-    </div>
+    @if (count($users) > 15)
+        <div class="box-footer clearfix">
+            {{-- Pagination rendered with laravel --}}
+            {{ $user->links() }}
+        </div>
+    @endif
     {{-- /.box footer --}}
 
     {{-- Partials --}}

@@ -14,89 +14,104 @@
                     <div class="col-md-8">
                         <h2>Takken:</h2>
 
-                        <div style="border-radius: 8px;" class="well well-sm color-kapoenen">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/kapoenen_zeehondjes.svg') }}" alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body color-white">
-                                    <h4 class="media-heading">Media heading</h4>
-                                    ...
+                        @foreach($kapoenen as $kapoen)
+                            <div style="border-radius: 8px;" class="well well-sm color-kapoenen">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/kapoenen_zeehondjes.svg') }}" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="media-body color-white">
+                                        <h4 class="media-heading">Media heading</h4>
+                                        ...
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
 
-                        <div style="border-radius: 8px;" class="well well-sm color-welpen">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/zeekabouters_welpen.svg') }}" alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body color-white">
-                                    <h4 class="media-heading">Media heading</h4>
-                                    ...
+                        @foreach($welpen as $welp)
+                            <div style="border-radius: 8px;" class="well well-sm color-welpen">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/zeekabouters_welpen.svg') }}" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="media-body color-white">
+                                        <h4 class="media-heading">Media heading</h4>
+                                        ...
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
 
-                        <div style="border-radius: 8px;" class="well well-sm color-jonggivers">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/jonggidsen_jongverkenners_scheepsmakkers.svg') }}">
-                                    </a>
-                                </div>
-                                <div class="media-body color-white">
-                                    <h4 class="media-heading">Media heading</h4>
-                                    ....
+                        @foreach($jongGivers as $jonggiver)
+                            <div style="border-radius: 8px;" class="well well-sm color-jonggivers">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/jonggidsen_jongverkenners_scheepsmakkers.svg') }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body color-white">
+                                        <h4 class="media-heading">
+                                            {{ $jonggiver->heading }}
+                                            <small>{{ $jonggiver->sub_heading }}</small>
+                                        </h4>
+                                        ....
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
 
-                        <div style="border-radius: 8px;" class="well well-sm color-givers">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/zee_gidsen_verkenners.svg') }}">
-                                    </a>
-                                </div>
-                                <div class="media-body color-white">
-                                    <h4 class="media-heading">Media heading</h4>
-                                    ....
+                        @foreach($givers as $giver)
+                            <div style="border-radius: 8px;" class="well well-sm color-givers">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/zee_gidsen_verkenners.svg') }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body color-white">
+                                        <h4 class="media-heading">Media heading</h4>
+                                        ....
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
 
-                        <div style="border-radius: 8px;" class="well well-sm color-jins">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/jins_loodsen.svg') }}">
-                                    </a>
-                                </div>
-                                <div class="media-body color-white">
-                                    <h4 class="media-heading">Media heading</h4>
-                                    ....
+                        @foreach($jins as $jin)
+                            <div style="border-radius: 8px;" class="well well-sm color-jins">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/jins_loodsen.svg') }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body color-white">
+                                        <h4 class="media-heading">Media heading</h4>
+                                        ....
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
 
-                        <div style="border-radius: 8px;" class="well well-sm color-leiding">
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/leiding.svg') }}">
-                                    </a>
-                                </div>
-                                <div class="media-body color-white">
-                                    <h4 class="media-heading">Media heading</h4>
-                                    ....
+                        @foreach($leiding as $leiders)
+                            <div style="border-radius: 8px;" class="well well-sm color-leiding">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object color-white" style="height: 75px; width: 75px;" src="{{ asset('assets/img/leiding.svg') }}">
+                                        </a>
+                                    </div>
+                                    <div class="media-body color-white">
+                                        <h4 class="media-heading">Media heading</h4>
+                                        ....
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
 
                     </div>    
                 </div>

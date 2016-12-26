@@ -80,7 +80,7 @@ class NewsController extends Controller
      * @param  int $id the news item id in the database. 
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function BackendShow($id)
+    public function backendShow($id)
     {
         $data['item'] = News::find($id);
         return view('', $data); 

@@ -64,7 +64,7 @@ class MailingController extends Controller
      * @param  int $id the id for the email record in the database.  
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function mailingDestroy($id) 
+    public function mailingDestroy($id)
     {
         if (Mailing::destroy($id)) // Check if the mailing record is deleted.
         {
