@@ -33,3 +33,6 @@ please send an e-mail to Tim Joosten at Topairy@gmail.com. All security vulnerab
 ## License
 
 The Sijot website is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+## Contributing
+Contributions are highly appreciated. Please read the [contribution guidelines](contributing.md) here.
